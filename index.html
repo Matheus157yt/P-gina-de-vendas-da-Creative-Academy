@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Academy | Planos de Design</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- 1. CONFIGURAÇÃO GERAL E NOVA PALETA DE CORES --- */
+        :root {
+            --bg-dark: #0A0A0F; /* Um preto um pouco mais suave */
+            --bg-light: #1A1B24; /* Cor dos cards */
+            --accent-cyan: #00D1FF;
+            --accent-purple: #A020F0;
+            --accent-gradient: linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0b0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success-color: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background-image: radial-gradient(ellipse at top, #1A1B24, var(--bg-dark));
+        }
+
+        /* --- 2. LAYOUT E COMPONENTES REUTILIZÁVEIS --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section { padding: 5rem 0; }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .highlight {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .btn.btn-filled {
+            background-image: var(--accent-gradient);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 20px rgba(160, 32, 240, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.btn-filled:hover {
+            box-shadow: 0 8px 30px rgba(160, 32, 240, 0.3);
+        }
+
+        /* --- 3. HEADER --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo { 
+            font-size: 1.5rem; 
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* --- 4. HERO SECTION --- */
+        #hero { text-align: center; padding: 6rem 0; }
+        #hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.05em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #hero p {
+            max-width: 600px;
+            margin: 1.5rem auto 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .hero-buttons { display: flex; justify-content: center; gap: 1rem; }
+
+        /* --- 5. SEÇÃO DE PLANOS --- */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            align-items: stretch;
+        }
+        
+        .plan-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-cyan);
+        }
+
+        .plan-card.popular {
+            border-color: var(--accent-purple);
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-image: var(--accent-gradient);
+            color: white;
+            padding: 0.4rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        .plan-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .plan-price { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .plan-price-details { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .plan-features { list-style: none; margin: 2rem 0; text-align: left; flex-grow: 1; }
+        .plan-features li { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .plan-features .lucide { color: var(--accent-cyan); flex-shrink: 0; }
+        .plan-savings {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+        }
+        .plan-card .btn { width: 100%; }
+        
+        @media (max-width: 600px) {
+            .plan-card.popular { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Creative Academy</div>
+        <a href="https://wa.me/556196312873?text=Ol%C3%A1!%20Visitei%20o%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20seus%20serviços." target="_blank" rel="noopener noreferrer" class="btn">Contato via WhatsApp</a>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <h1>Design que <span class="highlight">Impulsiona</span>. <br> Simples como dar Play.</h1>
+                <p>Escolha o pacote ideal para suas necessidades ou assine nosso plano ilimitado e tenha uma equipe de design sob demanda.</p>
+                <div class="hero-buttons">
+                    <a href="#planos" class="btn btn-filled">Ver Planos</a>
+                    <a href="#" class="btn">Ver Portfólio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Planos -->
+        <section id="planos">
+            <div class="container">
+                <h2 class="section-title">Planos Flexíveis para <span class="highlight">Cada Necessidade</span></h2>
+                <div class="plans-grid">
+
+                    <!-- Plano 1: Inicial -->
+                    <article class="plan-card">
+                        <h3>Plano Inicial</h3>
+                        <div class="plan-price">R$ 50</div>
+                        <p class="plan-price-details">Pagamento único</p>
+                        <ul class="plan-features">
+                            <li><i data-lucide="check"></i> <strong>1 Arte</strong> Profissional</li>
+                            <li><i data-lucide="check"></i> Formatos para Redes Sociais</li>
+                            <li><i data-lucide="check"></i> 1 Rodada de Revisão</li>
+                        </ul>
+                        <a href="https://wa.me/556196312873?text=Ol%C3%A1!%20Tenho%20interesse%20em%20contratar%20o%20*Plano%20Inicial*%20no%20valor%20de%20*R%24%2050*." target="_blank" rel="noopener noreferrer" class="btn">Contratar Plano</a>
+                    </article>
+
+                    <!-- Plano 2: Criativo (Popular) -->
+                    <article class="plan-card popular">
+                        <div class="popular-badge">MAIS POPULAR</div>
+                        <h3>Plano Criativo</h3>
+                        <div class="plan-price">R$ 200</div>
+                        <p class="plan-price-details">Apenas R$ 40 por arte</p>
+                        <ul class="plan-features">
+                            <li><i data-lucide="check"></i> <strong>5 Artes</strong> Profissionais</li>
+                            <li><i data-lucide="check"></i> 2 Rodadas de Revisão</li>
+                            <li><i data-lucide="check"></i> Entrega prioritária</li>
+                        </ul>
+                        <div class="plan-savings">Você economiza R$ 50</div>
+                        <a href="https://wa.me/556196312873?text=Ol%C3%A1!%20Tenho%20interesse%20em%20contratar%20o%20*Plano%20Criativo*%20no%20valor%20de%20*R%24%20200*." target="_blank" rel="noopener noreferrer" class="btn btn-filled">Contratar Plano</a>
+                    </article>
+
+                    <!-- Plano 3: Profissional -->
+                    <article class="plan-card">
+                        <h3>Plano Profissional</h3>
+                        <div class="plan-price">R$ 380</div>
+                        <p class="plan-price-details">Apenas R$ 38 por arte</p>
+                        <ul class="plan-features">
+                            <li><i data-lucide="check"></i> <strong>10 Artes</strong> Profissionais</li>
+                            <li><i data-lucide="check"></i> 3 Rodadas de Revisão</li>
+                            <li><i data-lucide="check"></i> Suporte Dedicado</li>
+                        </ul>
+                        <div class="plan-savings">Você economiza R$ 120</div>
+                        <a href="https://wa.me/556196312873?text=Ol%C3%A1!%20Tenho%20interesse%20em%20contratar%20o%20*Plano%20Profissional*%20no%20valor%20de%20*R%24%20380*." target="_blank" rel="noopener noreferrer" class="btn">Contratar Plano</a>
+                    </article>
+                    
+                    <!-- Plano 4: Infinity (Ilimitado) -->
+                    <article class="plan-card">
+                        <h3>Plano Infinity</h3>
+                        <div class="plan-price">R$ 997</div>
+                        <p class="plan-price-details">por mês</p>
+                        <ul class="plan-features">
+                            <li><i data-lucide="infinity"></i> <strong>Artes e Revisões Ilimitadas</strong></li>
+                            <li><i data-lucide="zap"></i> Pedidos entregues em 24-48h</li>
+                            <li><i data-lucide="message-square"></i> Suporte Prioritário</li>
+                            <li><i data-lucide="pause-circle"></i> Pause ou cancele a qualquer momento</li>
+                        </ul>
+                        <a href="https://wa.me/556196312873?text=Ol%C3%A1!%20Tenho%20interesse%20em%20assinar%20o%20*Plano%20Infinity*%20no%20valor%20de%20*R%24%20997%2Fm%C3%AAs*." target="_blank" rel="noopener noreferrer" class="btn btn-filled">Assinar Agora</a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Script para renderizar os ícones Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
